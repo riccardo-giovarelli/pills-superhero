@@ -4,28 +4,36 @@ The project aims to develop a web application for household medication managemen
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/)
-- [Yarn](https://yarnpkg.com/)
+- [PNpm](https://pnpm.io/)
 
-## Getting Started
+## Environment
+
+### First run
+
+- With your terminal from the project root:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
+```bash
+pnpm dev
+```
+- Open [http://localhost:3000](http://localhost:3000) with your browser.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser.
+### Run
 
+- With your terminal from the project root:
 
-## Authors
+```bash
+pnpm dev
+```
+- Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+## Author
 
 | Riccardo Giovarelli | [![LinkedIn](https://img.shields.io/badge/Linkedin-%230077B5.svg?logo=linkedin&logoColor=white)](https://linkedin.com/in/riccardo-giovarelli) [![github](https://img.shields.io/badge/github-181717.svg?logo=github&logoColor=white)](https://github.com/riccardo-giovarelli) |
 | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 ## License
 
-[MIT](https://opensource.org/license/mit)
+[GPL-3.0 license](https://www.gnu.org/licenses/gpl-3.0.html)
