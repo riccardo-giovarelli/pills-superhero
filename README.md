@@ -13,11 +13,21 @@ The project aims to develop a web application for household medication managemen
 - With your terminal from the project root:
 
 ```bash
+docker compose up
+```
+
+```bash
 pnpm install
 ```
+
+```bash
+pnpm dlx prisma migrate dev --name init_schema
+```
+
 ```bash
 pnpm dev
 ```
+
 - Open [http://localhost:3000](http://localhost:3000) with your browser.
 
 ### Run
@@ -28,6 +38,14 @@ pnpm dev
 pnpm dev
 ```
 - Open [http://localhost:3000](http://localhost:3000) with your browser.
+
+### Prisma Studio
+
+- With your terminal from the project root:
+
+```bash
+pnpm dlx prisma studio
+```
 
 ## Author
 
