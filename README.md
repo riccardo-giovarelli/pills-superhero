@@ -1,50 +1,78 @@
 # Pills Superhero
+
 The project aims to develop a web application for household medication management. The initial release (MVP) will focus on inventory tracking and smart refill reminders based on current stock and therapy schedules. Future updates will incorporate medication cost tracking.
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/)
+- [Node.js](https://nodejs.org/) (v18.x or higher)
 - [PNpm](https://pnpm.io/)
+- [Docker](https://www.docker.com/)
 
-## Environment
+---
 
-### First run
+## Getting Started
 
-- With your terminal from the project root:
+Follow these steps to initialize the project locally after cloning the repository.
+
+### 1. Environment Configuration
+Create a `.env` file in the root directory and add your database connection string. You can use the following default for the local Docker setup:
 
 ```bash
-docker compose up
+DATABASE_URL="postgresql://psh_user:psh_password@localhost:5432/psh_db?schema=public"
 ```
+
+
+### 2. Infrastructure Setup
+
+Start the PostgreSQL database container using Docker Compose:
+
+```bash
+docker compose up -d
+```
+
+_(The `-d` flag runs the container in the background)._
+
+### 3. Installation
+
+Install the project dependencies using pnpm:
 
 ```bash
 pnpm install
 ```
 
+### 4. Database Initialization
+
+Since this project uses __Prisma 7__, follow these steps to set up the schema and populate the database with the initial seed data:
+
 ```bash
-pnpm dlx prisma migrate dev --name init_schema
+# 1. Apply migrations to create the database schema
+pnpm prisma migrate dev --name init_schema
+
+# 2. Generate the Prisma Client
+pnpm prisma generate
+
+# 3. Seed the database (executes prisma/seed.ts to create the initial user)
+pnpm prisma db seed
 ```
+
+### 5. Development Server
+Launch the Next.js development server:
 
 ```bash
 pnpm dev
 ```
 
-- Open [http://localhost:3000](http://localhost:3000) with your browser.
+Open http://localhost:3000 in your browser to view the application.
 
-### Run
 
-- With your terminal from the project root:
-
-```bash
-pnpm dev
-```
-- Open [http://localhost:3000](http://localhost:3000) with your browser.
+## Additional Tools
 
 ### Prisma Studio
 
-- With your terminal from the project root:
+To explore and edit the data in your database via a GUI:
 
 ```bash
-pnpm dlx prisma studio
+pnpm prisma studio
 ```
 
 ## Author
