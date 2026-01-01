@@ -1,7 +1,6 @@
-import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-import Dashboard from './dashboard/page';
-import LoginPage from './login/page';
+import { auth } from '@/auth/auth';
 
 
 export default async function Home() {
@@ -9,9 +8,9 @@ export default async function Home() {
 
   // User not logged in
   if (!session) {
-    return <LoginPage />;
+    redirect('/login');
   }
 
   // User logged in
-  return <Dashboard />;
+  redirect('/Dashboard');
 }
