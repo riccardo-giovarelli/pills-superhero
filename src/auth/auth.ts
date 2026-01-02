@@ -15,11 +15,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: 'Password', type: 'password' },
       },
       /**
-       * @function authorize
-       *
-       * @description The authorize function handles the logic for validating user credentials.
-       *
-       * @async
+       * Handles the logic for validating user credentials.
        * @param {Record<string, unknown> | undefined} credentials - User-provided email and password.
        * @returns {Promise<any | null>} Returns a user object on success, or null on failure.
        */

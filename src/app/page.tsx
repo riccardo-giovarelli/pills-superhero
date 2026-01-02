@@ -12,5 +12,5 @@ export default async function Home() {
   }
 
   // User logged in
-  redirect('/Dashboard');
+  redirect('/dashboard');
 }
