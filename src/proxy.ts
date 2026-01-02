@@ -6,7 +6,7 @@ import { auth } from '@/auth/auth';
  * The 'auth' function acts as a wrapper to protect routes and
  * provide session data to the middleware layer.
  */
-export const proxy = auth;
+export default auth;
 
 /**
  * Middleware Matcher Configuration

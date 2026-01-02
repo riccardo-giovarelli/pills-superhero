@@ -13,9 +13,7 @@ const LoginSchema = z.object({
 });
 
 /**
- * @function authenticate
- *
- * @description Server Action to handle user authentication.
+ * Server Action to handle user authentication.
  *
  * @param {string | undefined} prevState - The previous state of the form, used by the useActionState hook.
  * @param {FormData} formData - The data submitted by the login form.

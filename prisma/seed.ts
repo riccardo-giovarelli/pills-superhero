@@ -10,13 +10,8 @@ import { PrismaClient } from '@prisma/client';
 dotenv.config();
 
 /**
- * @function main
- *
- * @description Core seeding function to populate the database with initial data.
+ * Core seeding function to populate the database with initial data.
  * This script uses the Prisma 7 Driver Adapter for PostgreSQL.
- *
- * * @async
- * @returns {Promise<void>}
  */
 async function main(): Promise<void> {
   const connectionString = process.env.DATABASE_URL;
@@ -49,7 +44,7 @@ async function main(): Promise<void> {
     },
     create: {
       email: 'fake.email@psh.com',
-      name: 'Riccardo Giovarelli',
+      name: 'Fake User',
       emailVerified: new Date(),
       password: hashedPassword,
     },

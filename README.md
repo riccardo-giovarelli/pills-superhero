@@ -15,12 +15,29 @@ The project aims to develop a web application for household medication managemen
 Follow these steps to initialize the project locally after cloning the repository.
 
 ### 1. Environment Configuration
-Create a `.env` file in the root directory and add your database connection string. You can use the following default for the local Docker setup:
+Create a `.env` file in the root directory and add the following configuration variables.
+
+#### Database Connection
+
+Use this default for the local Docker setup:
 
 ```bash
 DATABASE_URL="postgresql://psh_user:psh_password@localhost:5432/psh_db?schema=public"
 ```
 
+#### Authentication Secret
+
+Auth.js requires a secret key to encrypt session cookies. You can generate a secure random string using the following command:
+
+```bash
+openssl rand -base64 32
+```
+
+Add the generated string to your .env file:
+
+```bash
+AUTH_SECRET="your_generated_secret_here"
+```
 
 ### 2. Infrastructure Setup
 

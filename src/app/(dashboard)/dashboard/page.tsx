@@ -1,4 +1,5 @@
 import { redirect } from 'next/navigation';
+import { JSX } from 'react';
 
 import { auth, signOut } from '@/auth/auth';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -12,10 +13,9 @@ import {
  * DashboardPage component.
  * This is a Server Component that fetches the session and renders
  * the main user interface using Material UI.
- * * @async
  * @returns {Promise<JSX.Element>} The rendered dashboard page.
  */
-export default async function DashboardPage() {
+export default async function DashboardPage(): Promise<JSX.Element> {
   const session = await auth();
 
   // Redirect to login if the user is not authenticated
