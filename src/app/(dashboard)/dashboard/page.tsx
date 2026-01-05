@@ -1,3 +1,4 @@
+import { getTranslations } from 'next-intl/server';
 import { redirect } from 'next/navigation';
 import { JSX } from 'react';
 
@@ -17,6 +18,7 @@ import {
  */
 export default async function DashboardPage(): Promise<JSX.Element> {
   const session = await auth();
+  const t = await getTranslations('DashboardPage');
 
   // Redirect to login if the user is not authenticated
   if (!session) {
@@ -30,10 +32,13 @@ export default async function DashboardPage(): Promise<JSX.Element> {
         <Toolbar>
           <MedicationIcon sx={{ mr: 2 }} />
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            Pills Superhero
+            {t('title')}
           </Typography>
           <Typography variant='body1' sx={{ mr: 3, display: { xs: 'none', sm: 'block' } }}>
-            Welcome, <strong>{session.user?.name}</strong>
+            {t.rich('welcome', {
+              name: session.user?.name || '',
+              bold: (chunks) => <strong>{chunks}</strong>,
+            })}
           </Typography>
 
           {/* Logout Form using Server Action */}
@@ -44,7 +49,7 @@ export default async function DashboardPage(): Promise<JSX.Element> {
             }}
           >
             <Button type='submit' color='inherit' variant='outlined' startIcon={<LogoutIcon />} size='small'>
-              Logout
+              {t('logout')}
             </Button>
           </form>
         </Toolbar>
@@ -53,11 +58,11 @@ export default async function DashboardPage(): Promise<JSX.Element> {
       {/* Main Content Area */}
       <Container maxWidth='lg' sx={{ mt: 4 }}>
         <Typography variant='h4' component='h1' gutterBottom fontWeight='bold'>
-          Dashboard
+          {t('dashboard')}
         </Typography>
 
         <Typography variant='body1' color='text.secondary' paragraph>
-          Manage your medication inventory and refill reminders.
+          {t('description')}
         </Typography>
 
         <Divider sx={{ my: 3 }} />
@@ -67,7 +72,7 @@ export default async function DashboardPage(): Promise<JSX.Element> {
           <CardContent>
             <Typography variant='h6' component='h2' gutterBottom display='flex' alignItems='center'>
               <MedicationIcon sx={{ mr: 1, color: 'primary.main' }} />
-              Medication Inventory
+              {t('inventoryTitle')}
             </Typography>
             <Box
               sx={{
@@ -80,10 +85,10 @@ export default async function DashboardPage(): Promise<JSX.Element> {
               }}
             >
               <Typography variant='body2' color='text.secondary' fontStyle='italic'>
-                No medications registered at the moment.
+                {t('noMedications')}
               </Typography>
               <Button variant='contained' sx={{ mt: 2 }} size='small'>
-                Add First Medication
+                {t('addFirstMedication')}
               </Button>
             </Box>
           </CardContent>

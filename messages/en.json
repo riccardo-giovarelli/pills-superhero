@@ -1,0 +1,21 @@
+{
+  "Index": {
+    "title": "Hello, world!"
+  },
+  "LoginPage": {
+    "title": "Login",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "signInButton": "Sign In"
+  },
+  "DashboardPage": {
+    "title": "Pills Superhero",
+    "welcome": "Welcome, <bold>{name}</bold>",
+    "logout": "Logout",
+    "dashboard": "Dashboard",
+    "description": "Manage your medication inventory and refill reminders.",
+    "inventoryTitle": "Medication Inventory",
+    "noMedications": "No medications registered at the moment.",
+    "addFirstMedication": "Add First Medication"
+  }
+}

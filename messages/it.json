@@ -1,0 +1,21 @@
+{
+  "Index": {
+    "title": "Ciao, mondo!"
+  },
+  "LoginPage": {
+    "title": "Accedi",
+    "emailLabel": "Indirizzo Email",
+    "passwordLabel": "Password",
+    "signInButton": "Accedi"
+  },
+  "DashboardPage": {
+    "title": "Pills Superhero",
+    "welcome": "Benvenuto, <bold>{name}</bold>",
+    "logout": "Esci",
+    "dashboard": "Dashboard",
+    "description": "Gestisci il tuo inventario di farmaci e promemoria di ricarica.",
+    "inventoryTitle": "Inventario Farmaci",
+    "noMedications": "Nessun farmaco registrato al momento.",
+    "addFirstMedication": "Aggiungi il primo farmaco"
+  }
+}
