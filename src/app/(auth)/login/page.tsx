@@ -1,6 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
+import { useTranslations } from 'next-intl';
 
 import { authenticate } from '@/app/lib/action';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -12,6 +13,7 @@ import Avatar from '@mui/material/Avatar';
 
 export default function LoginPage() {
   const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
+  const t = useTranslations('LoginPage');
 
   return (
     <Container component='main' maxWidth='xs'>
@@ -39,7 +41,7 @@ export default function LoginPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component='h1' variant='h5' sx={{ mb: 3 }}>
-            Login
+            {t('title')}
           </Typography>
 
           {/* Form mapped to the Server Action */}
@@ -49,7 +51,7 @@ export default function LoginPage() {
               required
               fullWidth
               id='email'
-              label='Email Address'
+              label={t('emailLabel')}
               name='email'
               autoComplete='email'
               autoFocus
@@ -60,7 +62,7 @@ export default function LoginPage() {
               required
               fullWidth
               name='password'
-              label='Password'
+              label={t('passwordLabel')}
               type='password'
               id='password'
               autoComplete='current-password'
@@ -75,7 +77,7 @@ export default function LoginPage() {
             )}
 
             <Button type='submit' fullWidth variant='contained' disabled={isPending} sx={{ mt: 3, mb: 2, py: 1.5 }}>
-              {isPending ? <CircularProgress size={24} color='inherit' /> : 'Sign In'}
+              {isPending ? <CircularProgress size={24} color='inherit' /> : t('signInButton')}
             </Button>
           </Box>
         </Paper>
