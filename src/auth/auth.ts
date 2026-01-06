@@ -24,26 +24,26 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
-        // 1. Find the user in the database using the provided email
+        // Find the user in the database using the provided email
         const user = await prisma.user.findUnique({
           where: {
             email: credentials.email as string,
           },
         });
 
-        // 2. If user is not found or has no password (e.g., registered via OAuth), deny access
+        // If user is not found or has no password (e.g., registered via OAuth), deny access
         if (!user || !user.password) {
           return null;
         }
 
-        // 3. Compare the provided plain-text password with the stored hashed password
+        // Compare the provided plain-text password with the stored hashed password
         const isPasswordCorrect = await bcrypt.compare(credentials.password as string, user.password);
 
         if (!isPasswordCorrect) {
           return null;
         }
 
-        // 4. Return a safe user object (excluding the password field for security)
+        // Return a safe user object (excluding the password field for security)
         return {
           id: user.id,
           name: user.name,

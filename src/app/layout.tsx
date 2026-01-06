@@ -1,17 +1,14 @@
 import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
-import { ReactNode } from 'react';
 
+import { RootLayoutPropsType } from '@/app/layout.type';
 
-interface RootLayoutProps {
-  children: ReactNode;
-}
 
 /**
  * Main Layout for Non-localized routing.
  * The locale is resolved server-side via getLocale() instead of URL params.
  */
-export default async function RootLayout({ children }: RootLayoutProps) {
+export default async function RootLayout({ children }: RootLayoutPropsType) {
   const locale = await getLocale();
 
   const messages = await getMessages();

@@ -1,6 +1,9 @@
 {
-  "Index": {
-    "title": "Hello, world!"
+  "authLib": {
+    "invalidEmailAddress": "Please enter a valid email address",
+    "passwordRequired": "Please enter a password",
+    "wrongEmailOrPassword": "Wrong email or password",
+    "authProblem": "Something went wrong during authentication."
   },
   "LoginPage": {
     "title": "Login",
@@ -13,7 +16,7 @@
     "welcome": "Welcome, <bold>{name}</bold>",
     "logout": "Logout",
     "dashboard": "Dashboard",
-    "description": "Manage your medication inventory and refill reminders.",
+    "description": "Manage your medication inventory and therapies.",
     "inventoryTitle": "Medication Inventory",
     "noMedications": "No medications registered at the moment.",
     "addFirstMedication": "Add First Medication"

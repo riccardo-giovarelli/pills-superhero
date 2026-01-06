@@ -1,6 +1,9 @@
 {
-  "Index": {
-    "title": "Ciao, mondo!"
+  "authLib": {
+    "invalidEmailAddress": "Inserire un indirizzo email valido",
+    "passwordRequired": "Inserire una password",
+    "wrongEmailOrPassword": "Indirizzo email o password errati.",
+    "authProblem": "Qualcosa è andato storto durante l'autenticazione."
   },
   "LoginPage": {
     "title": "Accedi",
@@ -13,7 +16,7 @@
     "welcome": "Benvenuto, <bold>{name}</bold>",
     "logout": "Esci",
     "dashboard": "Dashboard",
-    "description": "Gestisci il tuo inventario di farmaci e promemoria di ricarica.",
+    "description": "Gestisci l'inventario dei tuoi farmaci e le tue terapie.",
     "inventoryTitle": "Inventario Farmaci",
     "noMedications": "Nessun farmaco registrato al momento.",
     "addFirstMedication": "Aggiungi il primo farmaco"

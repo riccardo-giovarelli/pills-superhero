@@ -1,16 +1,11 @@
 'use server';
 
 import { AuthError } from 'next-auth';
+import { getTranslations } from 'next-intl/server';
 import { z } from 'zod';
 
 import { signIn } from '@/auth/auth';
 
-
-// Zod validation schema for the login form.
-const LoginSchema = z.object({
-  email: z.email('Please enter a valid email address'),
-  password: z.string().min(1, 'Password is required'),
-});
 
 /**
  * Server Action to handle user authentication.
@@ -21,6 +16,14 @@ const LoginSchema = z.object({
  * otherwise performs a redirect.
  */
 export async function authenticate(prevState: string | undefined, formData: FormData): Promise<string | undefined> {
+  const t = await getTranslations('DashboardPage');
+
+  // Zod validation schema for the login form.
+  const LoginSchema = z.object({
+    email: z.email(t('invalidEmailAddress')),
+    password: z.string().min(1, t('passwordRequired')),
+  });
+
   // Validate form fields
   const validatedFields = LoginSchema.safeParse(Object.fromEntries(formData));
   if (!validatedFields.success) {
@@ -37,9 +40,9 @@ export async function authenticate(prevState: string | undefined, formData: Form
     if (error instanceof AuthError) {
       switch (error.type) {
         case 'CredentialsSignin':
-          return 'Invalid email or password.';
+          return t('wrongEmailOrPassword');
         default:
-          return 'Something went wrong during authentication.';
+          return t('authProblem');
       }
     }
     throw error;
