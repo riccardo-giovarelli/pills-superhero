@@ -16,7 +16,7 @@ import { signIn } from '@/auth/auth';
  * otherwise performs a redirect.
  */
 export async function authenticate(prevState: string | undefined, formData: FormData): Promise<string | undefined> {
-  const t = await getTranslations('DashboardPage');
+  const t = await getTranslations('authLib');
 
   // Zod validation schema for the login form.
   const LoginSchema = z.object({
