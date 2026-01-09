@@ -4,6 +4,7 @@ import { JSX } from 'react';
 
 import { auth } from '@/auth/auth';
 import DashboardAppBar from '@/components/dashboard/AppBar/DashboardAppBar';
+import AppDrawer from '@/components/dashboard/AppDrawer/AppDrawer';
 import { Box, Container } from '@mui/material';
 
 
@@ -29,6 +30,9 @@ export default async function DashboardPage(): Promise<JSX.Element> {
 
       {/* Main Content Area */}
       <Container maxWidth='lg' sx={{ mt: 4 }}></Container>
+
+      {/* Side Bar */}
+      <AppDrawer />
     </Box>
   );
 }

@@ -32,6 +32,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
      * Dynamically imports the translation JSON file for the determined locale.
      * @throws {Error} if the message file cannot be found.
      */
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    messages: (await import(`../../messages/${locale}.ts`)).default,
   };
 });
