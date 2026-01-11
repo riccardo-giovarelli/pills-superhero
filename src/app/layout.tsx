@@ -4,6 +4,8 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getLocale, getMessages } from 'next-intl/server';
 
 import { RootLayoutPropsType } from '@/app/layout.type';
+import ThemeRegistry from '@/theme/ThemeContext';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 
 
 /**
@@ -12,13 +14,16 @@ import { RootLayoutPropsType } from '@/app/layout.type';
  */
 export default async function RootLayout({ children }: RootLayoutPropsType) {
   const locale = await getLocale();
-
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+        <AppRouterCacheProvider options={{ enableCssLayer: true }}>
+          <ThemeRegistry>
+            <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+          </ThemeRegistry>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
