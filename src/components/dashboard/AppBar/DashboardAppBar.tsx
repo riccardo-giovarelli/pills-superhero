@@ -24,7 +24,7 @@ export default function DashboardAppBar({ session }: DashboardAppBarProps) {
   const toggleDrawer = useDashboardStore((state) => state.toggleDrawer);
 
   return (
-    <AppBar position='static' elevation={1}>
+    <AppBar position='fixed' elevation={1}>
       <Toolbar>
         {/* Menu icon */}
         <MenuIcon sx={{ mr: 2, cursor: 'pointer' }} onClick={() => toggleDrawer()} />
