@@ -17,7 +17,7 @@ export default async function RootLayout({ children }: RootLayoutPropsType) {
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
       <body>
         <AppRouterCacheProvider options={{ enableCssLayer: true }}>
           <ThemeRegistry>
