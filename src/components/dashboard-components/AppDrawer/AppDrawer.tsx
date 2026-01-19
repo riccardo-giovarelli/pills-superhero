@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 
-import { handleLogout } from '@/app/lib/action';
+import { handleLogout } from '@/app/lib/auth/action';
 import useDashboardStore from '@/stores/dashboard/useDashboardStore';
 import LogoutIcon from '@mui/icons-material/Logout';
 import Box from '@mui/material/Box';

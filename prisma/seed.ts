@@ -52,6 +52,48 @@ async function main(): Promise<void> {
 
   console.log('Main user successfully created/updated:', user.email);
 
+  /**
+   * Seed for Medication Units (e.g., mg, ml, g)
+   * Ensures the basic measurement units are available.
+   */
+  const units = ['mg', 'g', 'ml', 'UI'];
+  for (const unitName of units) {
+    await prisma.unit.upsert({
+      where: { name: unitName },
+      update: {},
+      create: { name: unitName },
+    });
+  }
+  console.log('Measurement units successfully seeded');
+
+  /**
+   * Seed for Medication Forms (e.g., Tablets, Drops)
+   * Populates the database with common pharmaceutical forms.
+   */
+  const forms = ['Compresse', 'Gocce', 'Sciroppo', 'Capsule', 'Pomata'];
+  for (const formName of forms) {
+    await prisma.medicationForm.upsert({
+      where: { name: formName },
+      update: {},
+      create: { name: formName },
+    });
+  }
+  console.log('Medication forms successfully seeded');
+
+  /**
+   * Seed for common Molecules (Principles)
+   * Pre-populates a few common active ingredients.
+   */
+  const molecules = ['Paracetamolo', 'Ibuprofene', 'Acido Acetilsalicilico'];
+  for (const molName of molecules) {
+    await prisma.molecule.upsert({
+      where: { name: molName },
+      update: {},
+      create: { name: molName },
+    });
+  }
+  console.log('Common molecules successfully seeded');
+
   // Gracefully close connections.
   await prisma.$disconnect();
   await pool.end();

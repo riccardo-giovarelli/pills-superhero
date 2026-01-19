@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 
-import AppDrawer from '@/components/dashboard/AppDrawer/AppDrawer';
+import AppDrawer from '@/components/dashboard-components/AppDrawer/AppDrawer';
 import { Box, Container } from '@mui/material';
 
 

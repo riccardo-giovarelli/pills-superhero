@@ -2,7 +2,7 @@ import { redirect } from 'next/navigation';
 
 import { DashboardLayoutPropsType } from '@/app/(dashboard)/layout.type';
 import { auth } from '@/auth/auth';
-import DashboardAppBar from '@/components/dashboard/AppBar/DashboardAppBar';
+import DashboardAppBar from '@/components/dashboard-components/AppBar/DashboardAppBar';
 import { Box } from '@mui/material';
 
 
