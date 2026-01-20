@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 
 export default function LoginPage() {
   const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
-  const t = useTranslations('LoginPage');
+  const t = useTranslations('Login');
 
   return (
     <Container component='main' maxWidth='xs'>

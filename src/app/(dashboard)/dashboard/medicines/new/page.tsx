@@ -1,4 +1,6 @@
-import MedicationFormCustom from '@/components/medications-components/MedicationFormCustom/MedicationFormCustom';
+import { getTranslations } from 'next-intl/server';
+
+import MedicinesFormCustom from '@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom';
 import { prisma } from '@/lib/prisma';
 import { Container, Typography } from '@mui/material';
 
@@ -11,13 +13,15 @@ export default async function AddMedicationPage() {
     prisma.manufacturer.findMany({ orderBy: { name: 'asc' } }),
   ]);
 
+  const t = await getTranslations('Medicines');
+
   return (
     <Container maxWidth='md'>
       <Typography variant='h4' sx={{ mb: 4, fontWeight: 'bold' }}>
-        Aggiungi Nuovo Farmaco
+        {t('title')}
       </Typography>
 
-      <MedicationFormCustom units={units} forms={forms} molecules={molecules} manufacturers={manufacturers} />
+      <MedicinesFormCustom units={units} forms={forms} molecules={molecules} manufacturers={manufacturers} />
     </Container>
   );
 }

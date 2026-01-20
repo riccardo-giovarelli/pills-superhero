@@ -1,26 +1,29 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 
 import { createMedication } from '@/app/lib/medications/action';
+import {
+    MedicinesFormCustomProps
+} from '@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom.type';
 import SaveIcon from '@mui/icons-material/Save';
 import { Alert, Autocomplete, Box, Button, Grid, MenuItem, Paper, TextField } from '@mui/material';
 
 
-interface Props {
-  units: any[];
-  forms: any[];
-  molecules: any[];
-  manufacturers: any[];
-}
-
-export default function MedicationFormCustom({ units, forms, molecules, manufacturers }: Props) {
+export default function MedicinesFormCustom({ units, forms, molecules, manufacturers }: MedicinesFormCustomProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<{ error?: string; success?: boolean }>({});
+  const t = useTranslations('Medicines');
 
-  // Funzione per gestire l'invio
-  async function handleAction(formData: FormData) {
-    setStatus({}); // Reset dello stato
+  /**
+   * Handles the submission of the medication form.
+   *
+   * @param {FormData} formData - The raw form data collected from the submission event.
+   * @returns {Promise<void>} A promise that resolves when the creation process and state updates are complete.
+   */
+  async function handleAction(formData: FormData): Promise<void> {
+    setStatus({});
 
     const result = await createMedication(formData);
 
@@ -28,13 +31,12 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
       setStatus({ error: result.error });
     } else {
       setStatus({ success: true });
-      formRef.current?.reset(); // Svuota il form in caso di successo
+      formRef.current?.reset();
     }
   }
 
   return (
     <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-      {/* Messaggi di feedback */}
       {status.error && (
         <Alert severity='error' sx={{ mb: 3 }}>
           {status.error}
@@ -42,18 +44,18 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
       )}
       {status.success && (
         <Alert severity='success' sx={{ mb: 3 }}>
-          Farmaco registrato con successo!
+          {t('saveMedicineSuccess')}
         </Alert>
       )}
 
       <Box component='form' action={handleAction} ref={formRef} noValidate autoComplete='off'>
         <Grid container spacing={3}>
-          {/* Nome Commerciale */}
+          {/* Trade Name */}
           <Grid size={{ xs: 12 }}>
-            <TextField fullWidth label='Nome del Farmaco' name='tradeName' required variant='outlined' />
+            <TextField fullWidth label={t('tradeName')} name='tradeName' required variant='outlined' />
           </Grid>
 
-          {/* Molecola - Usiamo un input nascosto per passare l'ID al FormData */}
+          {/* Molecule */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <Autocomplete
               options={molecules}
@@ -65,13 +67,13 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
               renderInput={(params) => (
                 <>
                   <input type='hidden' name='moleculeId' id='moleculeId' />
-                  <TextField {...params} label='Molecola / Principio Attivo' required />
+                  <TextField {...params} label={t('molecule')} required />
                 </>
               )}
             />
           </Grid>
 
-          {/* Casa Farmaceutica - Stessa logica dell'input nascosto */}
+          {/* Pharmaceutical Company */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <Autocomplete
               options={manufacturers}
@@ -83,7 +85,7 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
               renderInput={(params) => (
                 <>
                   <input type='hidden' name='manufacturerId' id='manufacturerId' />
-                  <TextField {...params} label='Casa Farmaceutica' required />
+                  <TextField {...params} label={t('pharmaceuticalCompany')} required />
                 </>
               )}
             />
@@ -91,7 +93,7 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
 
           {/* Tipo di farmaco */}
           <Grid size={{ xs: 12, sm: 4 }}>
-            <TextField select fullWidth label='Tipo' name='formId' defaultValue=''>
+            <TextField select fullWidth label={t('formId')} name='formId' defaultValue=''>
               {forms.map((form) => (
                 <MenuItem key={form.id} value={form.id}>
                   {form.name}
@@ -102,12 +104,12 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
 
           {/* Dosaggio */}
           <Grid size={{ xs: 12, sm: 4 }}>
-            <TextField fullWidth label='Dosaggio' name='dosageValue' type='number' required />
+            <TextField fullWidth label={t('dosageValue')} name='dosageValue' type='number' required />
           </Grid>
 
           {/* Unità di misura */}
           <Grid size={{ xs: 12, sm: 4 }}>
-            <TextField select fullWidth label='Unità' name='unitId' defaultValue=''>
+            <TextField select fullWidth label={t('unitOfMeasurement')} name='unitId' defaultValue=''>
               {units.map((unit) => (
                 <MenuItem key={unit.id} value={unit.id}>
                   {unit.name}
@@ -118,17 +120,27 @@ export default function MedicationFormCustom({ units, forms, molecules, manufact
 
           {/* Elementi nella scatola */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField fullWidth label='Quantità nella confezione' name='packageQuantity' type='number' required />
+            <TextField fullWidth label={t('packageQuantity')} name='packageQuantity' type='number' required />
           </Grid>
 
           {/* Scadenza */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            <TextField fullWidth label='Scadenza' name='expiryDate' type='date' InputLabelProps={{ shrink: true }} />
+            <TextField
+              fullWidth
+              label={t('expiryDate')}
+              name='expiryDate'
+              type='date'
+              slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+            />
           </Grid>
 
           <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
             <Button variant='contained' color='primary' fullWidth size='large' startIcon={<SaveIcon />} type='submit'>
-              Salva Farmaco
+              {t('saveMedicineButton')}
             </Button>
           </Grid>
         </Grid>

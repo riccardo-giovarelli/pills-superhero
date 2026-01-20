@@ -22,7 +22,7 @@ const ThemeToggle = dynamic(() => import('@/components/dashboard-components/Them
 });
 
 export default function DashboardAppBar({ session }: DashboardAppBarProps) {
-  const t = useTranslations('DashboardPage');
+  const t = useTranslations('Dashboard');
   const toggleDrawer = useDashboardStore((state) => state.toggleDrawer);
 
   return (
