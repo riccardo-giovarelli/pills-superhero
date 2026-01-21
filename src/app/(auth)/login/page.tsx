@@ -1,9 +1,9 @@
 'use client';
 
-import { useActionState } from 'react';
 import { useTranslations } from 'next-intl';
+import { useActionState } from 'react';
 
-import { authenticate } from '@/app/lib/action';
+import { authenticate } from '@/app/lib/auth/action';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import {
     Alert, Box, Button, CircularProgress, Container, Paper, TextField, Typography
@@ -13,7 +13,7 @@ import Avatar from '@mui/material/Avatar';
 
 export default function LoginPage() {
   const [errorMessage, formAction, isPending] = useActionState(authenticate, undefined);
-  const t = useTranslations('LoginPage');
+  const t = useTranslations('Login');
 
   return (
     <Container component='main' maxWidth='xs'>

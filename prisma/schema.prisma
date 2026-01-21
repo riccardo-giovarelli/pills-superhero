@@ -52,3 +52,45 @@ model VerificationToken {
 
   @@unique([identifier, token])
 }
+
+model Medication {
+  id              String         @id @default(cuid())
+  tradeName       String
+  formId          String
+  form            MedicationForm @relation(fields: [formId], references: [id])
+  dosageValue     Float
+  unitId          String
+  unit            Unit           @relation(fields: [unitId], references: [id])
+  packageQuantity Int
+  expiryDate      DateTime?
+  moleculeId      String
+  molecule        Molecule       @relation(fields: [moleculeId], references: [id])
+  manufacturerId  String
+  manufacturer    Manufacturer   @relation(fields: [manufacturerId], references: [id])
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
+model MedicationForm {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  medications Medication[]
+}
+
+model Unit {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  medications Medication[]
+}
+
+model Molecule {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  medications Medication[]
+}
+
+model Manufacturer {
+  id          String       @id @default(cuid())
+  name        String       @unique
+  medications Medication[]
+}

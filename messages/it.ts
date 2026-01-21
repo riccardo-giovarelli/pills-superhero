@@ -1,14 +1,16 @@
 import appBar from './app-bar/app-bar.it';
 import authLib from './auth-lib/auth-lib.it';
-import dashboardPage from './dashboard-page/dashboard-page.it';
-import loginPage from './login-page/login-page.it';
+import dashboard from './dashboard/dashboard.it';
+import login from './login/login.it';
+import medicines from './medicines/medicines.it';
 
 
 const lang = {
   AppBar: appBar,
   AuthLib: authLib,
-  LoginPage: loginPage,
-  DashboardPage: dashboardPage,
+  Login: login,
+  Dashboard: dashboard,
+  Medicines: medicines,
 };
 
 export default lang;
