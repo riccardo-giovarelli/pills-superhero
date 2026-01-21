@@ -8,8 +8,8 @@ import medicines from './medicines/medicines.it';
 const lang = {
   AppBar: appBar,
   AuthLib: authLib,
-  LoginPage: login,
-  DashboardPage: dashboard,
+  Login: login,
+  Dashboard: dashboard,
   Medicines: medicines,
 };
 

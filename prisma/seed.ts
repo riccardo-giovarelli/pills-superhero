@@ -94,6 +94,21 @@ async function main(): Promise<void> {
   }
   console.log('Common molecules successfully seeded');
 
+  /**
+   * Seed for Manufacturers (Pharmaceutical Companies)
+   * Populates the database with common manufacturers.
+   */
+  const manufacturers = ['Pfizer', 'GSK', 'Bayer', 'Novartis', 'Sanofi', 'Mylan'];
+
+  for (const manufacturerName of manufacturers) {
+    await prisma.manufacturer.upsert({
+      where: { name: manufacturerName },
+      update: {},
+      create: { name: manufacturerName },
+    });
+  }
+  console.log('Manufacturers successfully seeded');
+
   // Gracefully close connections.
   await prisma.$disconnect();
   await pool.end();

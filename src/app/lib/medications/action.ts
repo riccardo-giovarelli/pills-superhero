@@ -7,8 +7,8 @@ import { prisma } from '@/lib/prisma';
 
 
 /**
- * Schema di validazione Zod definito internamente alla Action.
- * Coerce trasforma le stringhe provenienti dal FormData in numeri o date.
+ * Zod validation schema for Medication data.
+ * Uses 'coerce' to transform FormData strings into appropriate numeric or date types.
  */
 const MedicationSchema = z.object({
   tradeName: z.string().min(1, 'Il nome commerciale è obbligatorio'),
@@ -24,28 +24,33 @@ const MedicationSchema = z.object({
     .transform((val) => (val ? new Date(val) : null)),
 });
 
+/**
+ * Server Action to create a new medication record in the database.
+ * * @param {FormData} formData - The raw form data from the client-side form.
+ * @returns {Promise<{error: string} | {success: boolean}>} - Returns an error message or a success flag.
+ */
 export async function createMedication(formData: FormData) {
-  // Estrazione dei dati dal FormData
+  // Extract data from FormData into a plain object
   const rawData = Object.fromEntries(formData.entries());
 
-  // Validazione
+  // Validate the object against the schema
   const result = MedicationSchema.safeParse(rawData);
 
-  // Se la validazione fallisce, restituiamo il primo errore riscontrato
+  // If validation fails, return the first error message encountered
   if (!result.success) {
     const errorMessage = result.error.issues[0].message;
     return { error: errorMessage };
   }
 
   try {
-    // Salvataggio su Postgres tramite Prisma
+    // Save to PostgreSQL via Prisma ORM
     await prisma.medication.create({
       data: {
         tradeName: result.data.tradeName,
         dosageValue: result.data.dosageValue,
         packageQuantity: result.data.packageQuantity,
         expiryDate: result.data.expiryDate,
-        // Relazioni tramite ID
+        // Establish relations via foreign keys (IDs)
         moleculeId: result.data.moleculeId,
         manufacturerId: result.data.manufacturerId,
         formId: result.data.formId,
@@ -53,12 +58,13 @@ export async function createMedication(formData: FormData) {
       },
     });
 
-    // Forza il refresh della pagina per mostrare i nuovi dati
+    // Purge the cache for the medications list page to reflect the new entry
     revalidatePath('/medications');
 
     return { success: true };
   } catch (error) {
-    console.error('Errore Database:', error);
-    return { error: 'Si è verificato un errore nel salvataggio. Riprova più tardi.' };
+    // Log error for internal debugging
+    console.error('Database Error:', error);
+    return { error: 'A database error occurred. Please try again later.' };
   }
 }
