@@ -3,7 +3,7 @@
 import { useTranslations } from 'next-intl';
 import { useRef, useState } from 'react';
 
-import { createMedication } from '@/app/lib/medications/action';
+import { createMedication } from '@/app/lib/medicines/action';
 import {
     MedicinesFormCustomProps
 } from '@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom.type';
