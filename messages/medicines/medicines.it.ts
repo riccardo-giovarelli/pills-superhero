@@ -8,8 +8,9 @@ const lang = {
   unitOfMeasurement: 'Unità di Misurazione',
   packageQuantity: 'Quantità nella confezione',
   formId: 'Tipo',
-  expiryDate: 'Data di Scadenza',
+  expiryDate: 'Scadenza',
   saveMedicineButton: 'Salva Farmaco',
+  drugInventory: 'Inventario Farmacologico',
 };
 
 export default lang;

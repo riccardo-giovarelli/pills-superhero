@@ -10,6 +10,7 @@ const lang = {
   formId: 'Type',
   expiryDate: 'Expiry Date',
   saveMedicineButton: 'Save Medicine',
+  drugInventory: 'Drug Inventory',
 };
 
 export default lang;

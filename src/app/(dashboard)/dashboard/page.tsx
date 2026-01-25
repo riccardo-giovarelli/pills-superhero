@@ -1,6 +1,5 @@
 import { JSX } from 'react';
 
-import AppDrawer from '@/components/dashboard-components/AppDrawer/AppDrawer';
 import { Box, Container } from '@mui/material';
 
 
@@ -15,9 +14,6 @@ export default async function DashboardPage(): Promise<JSX.Element> {
     <Box sx={{ flexGrow: 1 }}>
       {/* Main Content Area */}
       <Container maxWidth='lg' sx={{ mt: 4 }}></Container>
-
-      {/* Side Bar */}
-      <AppDrawer />
     </Box>
   );
 }

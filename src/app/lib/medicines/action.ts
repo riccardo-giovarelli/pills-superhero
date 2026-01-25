@@ -29,7 +29,7 @@ const MedicationSchema = z.object({
  * * @param {FormData} formData - The raw form data from the client-side form.
  * @returns {Promise<{error: string} | {success: boolean}>} - Returns an error message or a success flag.
  */
-export async function createMedication(formData: FormData) {
+export async function createMedication(formData: FormData): Promise<{ error: string } | { success: boolean }> {
   // Extract data from FormData into a plain object
   const rawData = Object.fromEntries(formData.entries());
 
@@ -66,5 +66,31 @@ export async function createMedication(formData: FormData) {
     // Log error for internal debugging
     console.error('Database Error:', error);
     return { error: 'A database error occurred. Please try again later.' };
+  }
+}
+
+/**
+ * Fetches the complete list of medications from the database including all associated relations.
+ *
+ * @async
+ * @function getMedications
+ * @returns {Promise<Array<Object>>} A promise that resolves to an array of Medication objects with their relations,
+ * or an empty array if an error occurs.
+ * @throws {Error} Logs the error to the console if the database query fails.
+ */
+export async function getMedications(): Promise<Array<object>> {
+  try {
+    const medicines = await prisma.medication.findMany({
+      include: {
+        molecule: true,
+        manufacturer: true,
+        form: true,
+        unit: true,
+      },
+    });
+    return medicines;
+  } catch (error) {
+    console.error('Database Error:', error);
+    return [];
   }
 }
