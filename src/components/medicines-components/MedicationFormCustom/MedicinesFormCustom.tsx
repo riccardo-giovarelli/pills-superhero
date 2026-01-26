@@ -1,19 +1,21 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
+import Link from 'next/link';
 import { useRef, useState } from 'react';
 
 import { createMedication } from '@/app/lib/medicines/action';
 import {
-    MedicinesFormCustomProps
+    FormStatus, MedicinesFormCustomProps
 } from '@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom.type';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
 import { Alert, Autocomplete, Box, Button, Grid, MenuItem, Paper, TextField } from '@mui/material';
 
 
 export default function MedicinesFormCustom({ units, forms, molecules, manufacturers }: MedicinesFormCustomProps) {
   const formRef = useRef<HTMLFormElement>(null);
-  const [status, setStatus] = useState<{ error?: string; success?: boolean }>({});
+  const [status, setStatus] = useState<FormStatus>({});
   const t = useTranslations('Medicines');
 
   /**
@@ -27,8 +29,8 @@ export default function MedicinesFormCustom({ units, forms, molecules, manufactu
 
     const result = await createMedication(formData);
 
-    if (result.error) {
-      setStatus({ error: result.error });
+    if (result && 'error' in result) {
+      setStatus({ error: result.error as string });
     } else {
       setStatus({ success: true });
       formRef.current?.reset();
@@ -91,7 +93,7 @@ export default function MedicinesFormCustom({ units, forms, molecules, manufactu
             />
           </Grid>
 
-          {/* Tipo di farmaco */}
+          {/* Pharmaceutical Form (e.g., Tablet, Syrup) */}
           <Grid size={{ xs: 12, sm: 4 }}>
             <TextField select fullWidth label={t('formId')} name='formId' defaultValue=''>
               {forms.map((form) => (
@@ -102,12 +104,12 @@ export default function MedicinesFormCustom({ units, forms, molecules, manufactu
             </TextField>
           </Grid>
 
-          {/* Dosaggio */}
+          {/* Dosage */}
           <Grid size={{ xs: 12, sm: 4 }}>
             <TextField fullWidth label={t('dosageValue')} name='dosageValue' type='number' required />
           </Grid>
 
-          {/* Unità di misura */}
+          {/* Unit of Measurement */}
           <Grid size={{ xs: 12, sm: 4 }}>
             <TextField select fullWidth label={t('unitOfMeasurement')} name='unitId' defaultValue=''>
               {units.map((unit) => (
@@ -118,12 +120,12 @@ export default function MedicinesFormCustom({ units, forms, molecules, manufactu
             </TextField>
           </Grid>
 
-          {/* Elementi nella scatola */}
+          {/* Items per Package */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField fullWidth label={t('packageQuantity')} name='packageQuantity' type='number' required />
           </Grid>
 
-          {/* Scadenza */}
+          {/* Expiry Date */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
               fullWidth
@@ -138,8 +140,24 @@ export default function MedicinesFormCustom({ units, forms, molecules, manufactu
             />
           </Grid>
 
-          <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
-            <Button variant='contained' color='primary' fullWidth size='large' startIcon={<SaveIcon />} type='submit'>
+          {/* Form Actions */}
+          <Grid size={{ xs: 12 }} sx={{ mt: 2, display: 'flex', gap: 2 }}>
+            {/* Cancel Button */}
+            <Link href='/dashboard/medicines' passHref style={{ flex: 1, textDecoration: 'none' }}>
+              <Button variant='outlined' color='secondary' fullWidth size='large' startIcon={<ArrowBackIcon />}>
+                {t('cancelButton')}
+              </Button>
+            </Link>
+
+            {/* Save Button */}
+            <Button
+              variant='contained'
+              color='primary'
+              sx={{ flex: 2 }}
+              size='large'
+              startIcon={<SaveIcon />}
+              type='submit'
+            >
               {t('saveMedicineButton')}
             </Button>
           </Grid>

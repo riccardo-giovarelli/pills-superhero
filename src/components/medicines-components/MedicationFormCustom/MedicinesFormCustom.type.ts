@@ -9,3 +9,8 @@ export interface MedicinesFormCustomProps {
   molecules: MedicineSpecifications[];
   manufacturers: MedicineSpecifications[];
 }
+
+export interface FormStatus {
+  error?: string;
+  success?: boolean;
+}
