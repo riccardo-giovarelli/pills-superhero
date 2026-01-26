@@ -16,7 +16,7 @@ export default async function AddMedicationPage() {
   const t = await getTranslations('Medicines');
 
   return (
-    <Container maxWidth='md'>
+    <Container maxWidth='lg'>
       <Typography variant='h4' sx={{ mb: 4, fontWeight: 'bold' }}>
         {t('title')}
       </Typography>

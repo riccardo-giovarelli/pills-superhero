@@ -9,8 +9,10 @@ const lang = {
   packageQuantity: 'Quantità nella confezione',
   formId: 'Tipo',
   expiryDate: 'Scadenza',
-  saveMedicineButton: 'Salva Farmaco',
+  saveMedicineButton: 'Salva',
   drugInventory: 'Inventario Farmacologico',
+  addNewDrug: 'Nuovo Farmaco',
+  cancelButton: 'Annulla',
 };
 
 export default lang;
