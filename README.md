@@ -72,6 +72,11 @@ pnpm prisma generate
 pnpm prisma db seed
 ```
 
+> **Note:** The seeding process (`prisma/seed.ts`) automatically creates a default user, basic medication units, forms, and common molecules to help you get started. You can log into the application using the following default credentials:
+>
+> - **Email:** `fake.email@psh.com`
+> - **Password:** `psh`
+
 ### 5. Development Server
 Launch the Next.js development server:
 
