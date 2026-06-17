@@ -1,27 +1,39 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations } from "next-intl/server";
 
-import MedicinesFormCustom from '@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom';
-import { prisma } from '@/lib/prisma';
-import { Container, Typography } from '@mui/material';
-
+import MedicinesFormCustom from "@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom";
+import { prisma } from "@/lib/prisma";
+import { Container, Typography } from "@mui/material";
 
 export default async function AddMedicationPage() {
-  const [units, forms, molecules, manufacturers] = await Promise.all([
-    prisma.unit.findMany({ orderBy: { name: 'asc' } }),
-    prisma.medicationForm.findMany({ orderBy: { name: 'asc' } }),
-    prisma.molecule.findMany({ orderBy: { name: 'asc' } }),
-    prisma.manufacturer.findMany({ orderBy: { name: 'asc' } }),
+  const [units, forms, molecules, manufacturers, medications] = await Promise.all([
+    prisma.unit.findMany({ orderBy: { name: "asc" } }),
+    prisma.medicationForm.findMany({ orderBy: { name: "asc" } }),
+    prisma.molecule.findMany({ orderBy: { name: "asc" } }),
+    prisma.manufacturer.findMany({ orderBy: { name: "asc" } }),
+    prisma.medication.findMany({
+      select: { tradeName: true },
+      distinct: ["tradeName"],
+      orderBy: { tradeName: "asc" },
+    }),
   ]);
 
-  const t = await getTranslations('Medicines');
+  const tradeNamesList = medications.map((med) => med.tradeName);
+
+  const t = await getTranslations("Medicines");
 
   return (
-    <Container maxWidth='lg'>
-      <Typography variant='h4' sx={{ mb: 4, fontWeight: 'bold' }}>
-        {t('title')}
+    <Container maxWidth="lg">
+      <Typography variant="h4" sx={{ mb: 4, fontWeight: "bold" }}>
+        {t("title")}
       </Typography>
 
-      <MedicinesFormCustom units={units} forms={forms} molecules={molecules} manufacturers={manufacturers} />
+      <MedicinesFormCustom
+        units={units}
+        forms={forms}
+        molecules={molecules}
+        manufacturers={manufacturers}
+        tradeNames={tradeNamesList}
+      />
     </Container>
   );
 }
