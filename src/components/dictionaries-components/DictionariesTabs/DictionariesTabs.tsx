@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
-// Immagina di avere un componente tabella generico o 4 tabelle separate
-// import DictionaryTable from './DictionaryTable';
+import { useTranslations } from "next-intl";
 
 export default function DictionariesTabs({ units, forms, molecules, manufacturers }: any) {
+  const t = useTranslations("Dictionaries");
   const [activeTab, setActiveTab] = useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setActiveTab(newValue);
   };
 
@@ -16,32 +16,40 @@ export default function DictionariesTabs({ units, forms, molecules, manufacturer
     <Box sx={{ width: "100%" }}>
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs value={activeTab} onChange={handleChange}>
-          <Tab label="Forme Farmaceutiche" />
-          <Tab label="Molecole" />
-          <Tab label="Produttori" />
-          <Tab label="Unità di Misura" />
+          <Tab label={t("formIdTab")} />
+          <Tab label={t("moleculeTab")} />
+          <Tab label={t("pharmaceuticalCompanyTab")} />
+          <Tab label={t("unitOfMeasurementTab")} />
         </Tabs>
       </Box>
 
       <Box sx={{ pt: 3 }}>
         {activeTab === 0 && (
           <div>
-            <p>Tabella Forme: {forms.length} elementi</p>
+            <p>
+              {t("table")} {t("formIdTab")}: {forms.length} elementi
+            </p>
           </div>
         )}
         {activeTab === 1 && (
           <div>
-            <p>Tabella Molecole: {molecules.length} elementi</p>
+            <p>
+              {t("table")} {t("moleculeTab")}: {molecules.length} elementi
+            </p>
           </div>
         )}
         {activeTab === 2 && (
           <div>
-            <p>Tabella Produttori: {manufacturers.length} elementi</p>
+            <p>
+              {t("table")} {t("pharmaceuticalCompanyTab")}: {manufacturers.length} elementi
+            </p>
           </div>
         )}
         {activeTab === 3 && (
           <div>
-            <p>Tabella Unità: {units.length} elementi</p>
+            <p>
+              {t("table")} {t("unitOfMeasurementTab")}: {units.length} elementi
+            </p>
           </div>
         )}
       </Box>

@@ -8,6 +8,7 @@ export interface MedicinesFormCustomProps {
   forms: MedicineSpecifications[];
   molecules: MedicineSpecifications[];
   manufacturers: MedicineSpecifications[];
+  tradeNames?: string[];
 }
 
 export interface FormStatus {

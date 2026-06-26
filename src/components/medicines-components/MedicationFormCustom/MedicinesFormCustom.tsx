@@ -5,22 +5,22 @@ import Link from "next/link";
 import { useRef, useState } from "react";
 
 import { createMedication } from "@/app/lib/medicines/action";
+import FormAutocomplete from "@/components/medicines-components/FormAutocomplete/FormAutocomplete";
 import {
   FormStatus,
   MedicinesFormCustomProps,
 } from "@/components/medicines-components/MedicationFormCustom/MedicinesFormCustom.type";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SaveIcon from "@mui/icons-material/Save";
-import { Alert, Autocomplete, Box, Button, Grid, MenuItem, Paper, TextField } from "@mui/material";
+import { Alert, Box, Button, Grid, Paper, TextField } from "@mui/material";
 
-// Nota: Aggiungi 'tradeNames?: string[]' al tipo MedicinesFormCustomProps nel tuo file .type.ts
 export default function MedicinesFormCustom({
   units,
   forms,
   molecules,
   manufacturers,
   tradeNames = [],
-}: MedicinesFormCustomProps & { tradeNames?: string[] }) {
+}: MedicinesFormCustomProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const [status, setStatus] = useState<FormStatus>({});
   const t = useTranslations("Medicines");
@@ -61,149 +61,32 @@ export default function MedicinesFormCustom({
         <Grid container spacing={3}>
           {/* Trade Name */}
           <Grid size={{ xs: 12 }}>
-            <Autocomplete
-              freeSolo
-              options={tradeNames}
-              getOptionLabel={(option) => option}
-              onChange={(_, newValue) => {
-                const hiddenInput = document.getElementById("tradeName") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newValue || "";
-              }}
-              onInputChange={(_, newInputValue) => {
-                const hiddenInput = document.getElementById("tradeName") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newInputValue;
-              }}
-              renderInput={(params) => (
-                <>
-                  <input type="hidden" name="tradeName" id="tradeName" />
-                  <TextField {...params} label={t("tradeName")} required variant="outlined" />
-                </>
-              )}
-            />
+            <FormAutocomplete name="tradeName" label={t("tradeName")} options={tradeNames} required />
           </Grid>
-
           {/* Molecule */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            <Autocomplete
-              freeSolo
-              options={molecules}
-              getOptionLabel={(option) => {
-                if (typeof option === "object" && option !== null) return option.name;
-                return option;
-              }}
-              onChange={(_, newValue) => {
-                const hiddenInput = document.getElementById("moleculeId") as HTMLInputElement;
-                if (hiddenInput) {
-                  hiddenInput.value = typeof newValue === "object" && newValue !== null ? newValue.id : newValue || "";
-                }
-              }}
-              onInputChange={(_, newInputValue) => {
-                const hiddenInput = document.getElementById("moleculeId") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newInputValue;
-              }}
-              renderInput={(params) => (
-                <>
-                  <input type="hidden" name="moleculeId" id="moleculeId" />
-                  <TextField {...params} label={t("molecule")} />
-                </>
-              )}
-            />
+            <FormAutocomplete name="moleculeId" label={t("molecule")} options={molecules} />
           </Grid>
-
           {/* Pharmaceutical Company */}
           <Grid size={{ xs: 12, sm: 6 }}>
-            <Autocomplete
-              freeSolo
-              options={manufacturers}
-              getOptionLabel={(option) => {
-                if (typeof option === "object" && option !== null) return option.name;
-                return option;
-              }}
-              onChange={(_, newValue) => {
-                const hiddenInput = document.getElementById("manufacturerId") as HTMLInputElement;
-                if (hiddenInput) {
-                  hiddenInput.value = typeof newValue === "object" && newValue !== null ? newValue.id : newValue || "";
-                }
-              }}
-              onInputChange={(_, newInputValue) => {
-                const hiddenInput = document.getElementById("manufacturerId") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newInputValue;
-              }}
-              renderInput={(params) => (
-                <>
-                  <input type="hidden" name="manufacturerId" id="manufacturerId" />
-                  <TextField {...params} label={t("pharmaceuticalCompany")} />
-                </>
-              )}
-            />
+            <FormAutocomplete name="manufacturerId" label={t("pharmaceuticalCompany")} options={manufacturers} />
           </Grid>
-
           {/* Pharmaceutical Form */}
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Autocomplete
-              freeSolo
-              options={forms}
-              getOptionLabel={(option) => {
-                if (typeof option === "object" && option !== null) return option.name;
-                return option;
-              }}
-              onChange={(_, newValue) => {
-                const hiddenInput = document.getElementById("formId") as HTMLInputElement;
-                if (hiddenInput) {
-                  hiddenInput.value = typeof newValue === "object" && newValue !== null ? newValue.id : newValue || "";
-                }
-              }}
-              onInputChange={(_, newInputValue) => {
-                const hiddenInput = document.getElementById("formId") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newInputValue;
-              }}
-              renderInput={(params) => (
-                <>
-                  <input type="hidden" name="formId" id="formId" />
-                  <TextField {...params} label={t("formId")} />
-                </>
-              )}
-            />
+            <FormAutocomplete name="formId" label={t("formId")} options={forms} />
           </Grid>
-
           {/* Dosage */}
           <Grid size={{ xs: 12, sm: 4 }}>
             <TextField fullWidth label={t("dosageValue")} name="dosageValue" type="number" required />
           </Grid>
-
           {/* Unit of Measurement */}
           <Grid size={{ xs: 12, sm: 4 }}>
-            <Autocomplete
-              freeSolo
-              options={units}
-              getOptionLabel={(option) => {
-                if (typeof option === "object" && option !== null) return option.name;
-                return option;
-              }}
-              onChange={(_, newValue) => {
-                const hiddenInput = document.getElementById("unitId") as HTMLInputElement;
-                if (hiddenInput) {
-                  hiddenInput.value = typeof newValue === "object" && newValue !== null ? newValue.id : newValue || "";
-                }
-              }}
-              onInputChange={(_, newInputValue) => {
-                const hiddenInput = document.getElementById("unitId") as HTMLInputElement;
-                if (hiddenInput) hiddenInput.value = newInputValue;
-              }}
-              renderInput={(params) => (
-                <>
-                  <input type="hidden" name="unitId" id="unitId" />
-                  <TextField {...params} label={t("unitOfMeasurement")} required />
-                </>
-              )}
-            />
+            <FormAutocomplete name="unitId" label={t("unitOfMeasurement")} options={units} required />
           </Grid>
-
           {/* Items per Package */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField fullWidth label={t("packageQuantity")} name="packageQuantity" type="number" required />
           </Grid>
-
           {/* Expiry Date */}
           <Grid size={{ xs: 12, sm: 6 }}>
             <TextField
@@ -211,11 +94,7 @@ export default function MedicinesFormCustom({
               label={t("expiryDate")}
               name="expiryDate"
               type="date"
-              slotProps={{
-                inputLabel: {
-                  shrink: true,
-                },
-              }}
+              slotProps={{ inputLabel: { shrink: true } }}
             />
           </Grid>
 
@@ -227,7 +106,6 @@ export default function MedicinesFormCustom({
                 {t("cancelButton")}
               </Button>
             </Link>
-
             {/* Save Button */}
             <Button
               variant="contained"
