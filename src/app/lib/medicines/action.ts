@@ -1,23 +1,31 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
 
-import { prisma } from '@/lib/prisma';
-
+import { prisma } from "@/lib/prisma";
 
 /**
  * Zod validation schema for Medication data.
  * Uses 'coerce' to transform FormData strings into appropriate numeric or date types.
  */
 const MedicationSchema = z.object({
-  tradeName: z.string().min(1, 'Il nome commerciale è obbligatorio'),
-  moleculeId: z.string().min(1, 'Seleziona una molecola'),
-  manufacturerId: z.string().min(1, 'Seleziona un produttore'),
-  formId: z.string().min(1, 'Seleziona la forma farmaceutica'),
+  tradeName: z.string().min(1, "Il nome commerciale è obbligatorio"),
+  moleculeId: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? null : val)),
+  manufacturerId: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? null : val)),
+  formId: z
+    .string()
+    .optional()
+    .transform((val) => (val === "" ? null : val)),
+  dosageValue: z.coerce.number().positive("Il dosaggio deve essere maggiore di zero"),
   unitId: z.string().min(1, "Seleziona l'unità di misura"),
-  dosageValue: z.coerce.number().positive('Il dosaggio deve essere maggiore di zero'),
-  packageQuantity: z.coerce.number().int().positive('La quantità deve essere un numero intero'),
+  packageQuantity: z.coerce.number().int().positive("La quantità deve essere un numero intero"),
   expiryDate: z
     .string()
     .optional()
@@ -43,29 +51,104 @@ export async function createMedication(formData: FormData): Promise<{ error: str
   }
 
   try {
+    let finalMoleculeId: string | null = null;
+    let finalManufacturerId: string | null = null;
+    let finalFormId: string | null = null;
+    let finalUnitId: string; // Obbligatorio per il DB
+
+    // Handle Molecule (Find existing by ID or Name, otherwise Create)
+    if (result.data.moleculeId) {
+      const existingMolecule = await prisma.molecule.findFirst({
+        where: {
+          OR: [{ id: result.data.moleculeId }, { name: result.data.moleculeId }],
+        },
+      });
+
+      if (existingMolecule) {
+        finalMoleculeId = existingMolecule.id;
+      } else {
+        const newMolecule = await prisma.molecule.create({
+          data: { name: result.data.moleculeId },
+        });
+        finalMoleculeId = newMolecule.id;
+      }
+    }
+
+    // Handle Manufacturer (Find existing by ID or Name, otherwise Create)
+    if (result.data.manufacturerId) {
+      const existingManufacturer = await prisma.manufacturer.findFirst({
+        where: {
+          OR: [{ id: result.data.manufacturerId }, { name: result.data.manufacturerId }],
+        },
+      });
+
+      if (existingManufacturer) {
+        finalManufacturerId = existingManufacturer.id;
+      } else {
+        const newManufacturer = await prisma.manufacturer.create({
+          data: { name: result.data.manufacturerId },
+        });
+        finalManufacturerId = newManufacturer.id;
+      }
+    }
+
+    // Handle Pharmaceutical Form (Find existing by ID or Name, otherwise Create)
+    if (result.data.formId) {
+      const existingForm = await prisma.medicationForm.findFirst({
+        where: {
+          OR: [{ id: result.data.formId }, { name: result.data.formId }],
+        },
+      });
+
+      if (existingForm) {
+        finalFormId = existingForm.id;
+      } else {
+        const newForm = await prisma.medicationForm.create({
+          data: { name: result.data.formId },
+        });
+        finalFormId = newForm.id;
+      }
+    }
+
+    // Handle Unit of Measurement (Find existing by ID or Name, otherwise Create)
+    const existingUnit = await prisma.unit.findFirst({
+      where: {
+        OR: [{ id: result.data.unitId }, { name: result.data.unitId }],
+      },
+    });
+
+    if (existingUnit) {
+      finalUnitId = existingUnit.id;
+    } else {
+      const newUnit = await prisma.unit.create({
+        data: { name: result.data.unitId },
+      });
+      finalUnitId = newUnit.id;
+    }
+
     // Save to PostgreSQL via Prisma ORM
     await prisma.medication.create({
       data: {
-        tradeName: result.data.tradeName,
+        tradeName: result.data.tradeName, // Salvato come puro testo nel DB
         dosageValue: result.data.dosageValue,
         packageQuantity: result.data.packageQuantity,
         expiryDate: result.data.expiryDate,
-        // Establish relations via foreign keys (IDs)
-        moleculeId: result.data.moleculeId,
-        manufacturerId: result.data.manufacturerId,
-        formId: result.data.formId,
-        unitId: result.data.unitId,
+        // Establish relations via foreign keys (IDs) resolved above
+        unitId: finalUnitId,
+        moleculeId: finalMoleculeId,
+        manufacturerId: finalManufacturerId,
+        formId: finalFormId,
       },
     });
 
     // Purge the cache for the medications list page to reflect the new entry
-    revalidatePath('/medications');
+    revalidatePath("/medications");
 
     return { success: true };
   } catch (error) {
     // Log error for internal debugging
-    console.error('Database Error:', error);
-    return { error: 'A database error occurred. Please try again later.' };
+    console.error("Database Error:", error);
+    return { error: "A database error occurred. Please try again later." };
   }
 }
 
@@ -90,7 +173,7 @@ export async function getMedications(): Promise<Array<object>> {
     });
     return medicines;
   } catch (error) {
-    console.error('Database Error:', error);
+    console.error("Database Error:", error);
     return [];
   }
 }

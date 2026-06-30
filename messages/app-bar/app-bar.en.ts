@@ -1,7 +1,8 @@
 const lang = {
-  logout: 'Logout',
-  medicines: 'Medicines',
-  dashboard: 'Dashboard',
+  logout: "Logout",
+  medicines: "Medicines",
+  dashboard: "Dashboard",
+  dictionaries: "Dictionaries",
 };
 
 export default lang;

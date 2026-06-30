@@ -1,52 +1,62 @@
-'use client';
+"use client";
 
-import { useTranslations } from 'next-intl';
-import Link from 'next/link';
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 
-import { handleLogout } from '@/app/lib/auth/action';
-import useDashboardStore from '@/stores/dashboard/useDashboardStore';
-import DashboardIcon from '@mui/icons-material/Dashboard'; // Importa l'icona Dashboard
-import LogoutIcon from '@mui/icons-material/Logout';
-import MedicationIcon from '@mui/icons-material/Medication';
-import Box from '@mui/material/Box';
-import Divider from '@mui/material/Divider';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-
+import { handleLogout } from "@/app/lib/auth/action";
+import useDashboardStore from "@/stores/dashboard/useDashboardStore";
+import DashboardIcon from "@mui/icons-material/Dashboard"; // Importa l'icona Dashboard
+import LogoutIcon from "@mui/icons-material/Logout";
+import MedicationIcon from "@mui/icons-material/Medication";
+import Box from "@mui/material/Box";
+import Divider from "@mui/material/Divider";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 
 export default function AppDrawer() {
   const isOpen = useDashboardStore((state) => state.isDrawerOpen);
   const closeDrawer = useDashboardStore((state) => state.closeDrawer);
-  const t = useTranslations('AppBar');
+  const t = useTranslations("AppBar");
 
   return (
     <Drawer open={isOpen} onClose={closeDrawer}>
-      <Box sx={{ width: 250 }} role='presentation' onClick={closeDrawer}>
+      <Box sx={{ width: 250 }} role="presentation" onClick={closeDrawer}>
         <List>
           {/* Dashboard */}
           <ListItem disablePadding>
-            <ListItemButton component={Link} href='/dashboard'>
+            <ListItemButton component={Link} href="/dashboard">
               <ListItemIcon>
                 <DashboardIcon />
               </ListItemIcon>
-              <ListItemText primary={t('dashboard')} />
+              <ListItemText primary={t("dashboard")} />
             </ListItemButton>
           </ListItem>
 
           {/* Medicines */}
           <ListItem disablePadding>
-            <ListItemButton component={Link} href='/dashboard/medicines'>
+            <ListItemButton component={Link} href="/dashboard/medicines">
               <ListItemIcon>
                 <MedicationIcon />
               </ListItemIcon>
-              <ListItemText primary={t('medicines')} />
+              <ListItemText primary={t("medicines")} />
             </ListItemButton>
           </ListItem>
         </List>
+
+        {/* Dictionaries */}
+        <ListItem disablePadding>
+          <ListItemButton component={Link} href="/dashboard/dictionaries">
+            <ListItemIcon>
+              <LibraryBooksIcon />
+            </ListItemIcon>
+            <ListItemText primary={t("dictionaries")} /> {/* Aggiungi la traduzione */}
+          </ListItemButton>
+        </ListItem>
 
         <Divider />
 
@@ -57,7 +67,7 @@ export default function AppDrawer() {
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary={t('logout')} />
+              <ListItemText primary={t("logout")} />
             </ListItemButton>
           </ListItem>
         </List>
