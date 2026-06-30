@@ -1,8 +1,20 @@
 "use client";
 
-import { useState } from "react";
 import { Box, Tab, Tabs } from "@mui/material";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+
+import {
+  deleteForm,
+  deleteManufacturer,
+  deleteMolecule,
+  deleteUnit,
+  saveForm,
+  saveManufacturer,
+  saveMolecule,
+  saveUnit,
+} from "@/app/lib/dictionaries/action";
+import DictionaryTable from "@/components/dictionaries-components/DictionaryTable/DictionaryTable";
 
 export default function DictionariesTabs({ units, forms, molecules, manufacturers }: any) {
   const t = useTranslations("Dictionaries");
@@ -23,35 +35,13 @@ export default function DictionariesTabs({ units, forms, molecules, manufacturer
         </Tabs>
       </Box>
 
-      <Box sx={{ pt: 3 }}>
-        {activeTab === 0 && (
-          <div>
-            <p>
-              {t("table")} {t("formIdTab")}: {forms.length} elementi
-            </p>
-          </div>
-        )}
-        {activeTab === 1 && (
-          <div>
-            <p>
-              {t("table")} {t("moleculeTab")}: {molecules.length} elementi
-            </p>
-          </div>
-        )}
+      <Box sx={{ pt: 3, height: 600, width: "100%" }}>
+        {activeTab === 0 && <DictionaryTable initialData={forms} onSave={saveForm} onDelete={deleteForm} />}
+        {activeTab === 1 && <DictionaryTable initialData={molecules} onSave={saveMolecule} onDelete={deleteMolecule} />}
         {activeTab === 2 && (
-          <div>
-            <p>
-              {t("table")} {t("pharmaceuticalCompanyTab")}: {manufacturers.length} elementi
-            </p>
-          </div>
+          <DictionaryTable initialData={manufacturers} onSave={saveManufacturer} onDelete={deleteManufacturer} />
         )}
-        {activeTab === 3 && (
-          <div>
-            <p>
-              {t("table")} {t("unitOfMeasurementTab")}: {units.length} elementi
-            </p>
-          </div>
-        )}
+        {activeTab === 3 && <DictionaryTable initialData={units} onSave={saveUnit} onDelete={deleteUnit} />}
       </Box>
     </Box>
   );
